@@ -1,8 +1,9 @@
 import React, { FC } from "react";
-import { Route, Routes } from "react-router";
+import { Route, Routes, Navigate } from "react-router";
 import { Box } from "zmp-ui";
 import { Navigation } from "./navigation";
 import { ProtectedRoute, PublicRoute } from "./route-guard";
+import { AuthInitializer } from "./auth-initializer";
 import HomePage from "pages/index";
 import LoginPage from "pages/login";
 import NotificationPage from "pages/notification";
@@ -17,6 +18,8 @@ import FormTestOriginalPage from "pages/form-test-original";
 import { getSystemInfo } from "zmp-sdk";
 import { ScrollRestoration } from "./scroll-restoration";
 import { useHandlePayment } from "hooks";
+import { useRecoilValue } from "recoil";
+import { isAuthenticatedState } from "state";
 
 if (import.meta.env.DEV) {
   document.body.style.setProperty("--zaui-safe-area-inset-top", "24px");
@@ -30,108 +33,128 @@ if (import.meta.env.DEV) {
   );
 }
 
+// 根路由重定向组件
+const RootRedirect: FC = () => {
+  const isAuthenticated = useRecoilValue(isAuthenticatedState);
+  
+  // 根据登录状态重定向
+  if (isAuthenticated) {
+    return <Navigate to="/home" replace />;
+  } else {
+    return <Navigate to="/login" replace />;
+  }
+};
+
 export const Layout: FC = () => {
   useHandlePayment();
 
   return (
-    <Box flex flexDirection="column" className="h-screen">
-      <ScrollRestoration />
-      <Box className="flex-1 flex flex-col overflow-hidden">
-        <Routes>
-          {/* Public routes - Login page */}
-          <Route
-            path="/login"
-            element={
-              <PublicRoute>
-                <LoginPage />
-              </PublicRoute>
-            }
-          />
+    <AuthInitializer>
+      <Box flex flexDirection="column" className="h-screen">
+        <ScrollRestoration />
+        <Box className="flex-1 flex flex-col overflow-hidden">
+          <Routes>
+            {/* Root route - redirect based on auth status */}
+            <Route path="/" element={<RootRedirect />} />
 
-          {/* Protected routes - Require login to access */}
-          <Route
-            path="/"
-            element={
-              <ProtectedRoute>
-                <HomePage />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/notification"
-            element={
-              <ProtectedRoute>
-                <NotificationPage />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/profile"
-            element={
-              <ProtectedRoute>
-                <ProfilePage />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/user-info"
-            element={
-              <ProtectedRoute>
-                <UserInfoPage />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/result"
-            element={
-              <ProtectedRoute>
-                <CheckoutResultPage />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/news-detail"
-            element={
-              <ProtectedRoute>
-                <NewsDetailPage />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/chat"
-            element={
-              <ProtectedRoute>
-                <ChatPage />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/message"
-            element={
-              <ProtectedRoute>
-                <MessagePage />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/form-test"
-            element={
-              <ProtectedRoute>
-                <FormTestFixedPage />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/form-test-original"
-            element={
-              <ProtectedRoute>
-                <FormTestOriginalPage />
-              </ProtectedRoute>
-            }
-          />
-        </Routes>
+            {/* Public routes - Login page */}
+            <Route
+              path="/login"
+              element={
+                <PublicRoute>
+                  <LoginPage />
+                </PublicRoute>
+              }
+            />
+
+            {/* Protected routes - Require login to access */}
+            <Route
+              path="/home"
+              element={
+                <ProtectedRoute>
+                  <HomePage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/notification"
+              element={
+                <ProtectedRoute>
+                  <NotificationPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/profile"
+              element={
+                <ProtectedRoute>
+                  <ProfilePage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/user-info"
+              element={
+                <ProtectedRoute>
+                  <UserInfoPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/result"
+              element={
+                <ProtectedRoute>
+                  <CheckoutResultPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/news-detail"
+              element={
+                <ProtectedRoute>
+                  <NewsDetailPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/chat"
+              element={
+                <ProtectedRoute>
+                  <ChatPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/message"
+              element={
+                <ProtectedRoute>
+                  <MessagePage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/form-test"
+              element={
+                <ProtectedRoute>
+                  <FormTestFixedPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/form-test-original"
+              element={
+                <ProtectedRoute>
+                  <FormTestOriginalPage />
+                </ProtectedRoute>
+              }
+            />
+
+            {/* Catch all route - redirect to login for unknown paths */}
+            <Route path="*" element={<Navigate to="/login" replace />} />
+          </Routes>
+        </Box>
+        <Navigation />
       </Box>
-      <Navigation />
-    </Box>
+    </AuthInitializer>
   );
 };

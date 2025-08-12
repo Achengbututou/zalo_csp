@@ -9,6 +9,31 @@ class HttpService {
     this.baseURL = API_BASE_URL;
   }
 
+  // 处理登录状态失效
+  private handleAuthError() {
+    console.log('[HTTP Service] 检测到登录状态无效，清理登录数据并重定向到登录页');
+    
+    // 清理所有登录相关的localStorage数据
+    if (typeof localStorage !== "undefined") {
+      localStorage.removeItem("authToken");
+      localStorage.removeItem("token");
+      localStorage.removeItem("userInfo");
+    }
+
+    // 触发一个自定义事件，让React组件处理重定向
+    if (typeof window !== "undefined") {
+      const event = new CustomEvent('auth-error', { detail: { reason: 'token-invalid' } });
+      window.dispatchEvent(event);
+      
+      // 作为备用方案，如果事件处理失败，直接重定向
+      setTimeout(() => {
+        if (window.location.pathname !== '/login') {
+          window.location.replace('/login');
+        }
+      }, 100);
+    }
+  }
+
   // 处理URL - 模仿原始项目的learun_handleUrl方法
   handleUrl(url) {
     let result = url;
@@ -117,6 +142,7 @@ class HttpService {
 
       // 检查API返回格式，模仿原始项目的learun_handleResult方法
       if (result.code === 401 || response.status === 410) {
+        this.handleAuthError();
         throw new Error("登录状态无效");
       }
 
@@ -164,6 +190,7 @@ class HttpService {
 
       // 检查API返回格式，模仿原始项目的learun_handleResult方法
       if (result.code === 401 || response.status === 410) {
+        this.handleAuthError();
         throw new Error("登录状态无效");
       }
 

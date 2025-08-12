@@ -28,7 +28,11 @@ export const isAuthenticatedState = selector({
   key: "isAuthenticated",
   get: ({ get }) => {
     const token = get(authTokenState);
-    return !!token;
+    const user = get(currentUserState);
+    
+    // 只检查token和用户信息是否都存在，不在这里清理数据
+    // 数据清理应该由AuthInitializer或HTTP服务来处理
+    return !!(token && user);
   },
 });
 

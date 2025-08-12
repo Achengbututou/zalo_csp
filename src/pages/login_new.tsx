@@ -148,7 +148,7 @@ const LoginPage: React.FunctionComponent = () => {
         setCurrentUser(response.userInfo || {});
         
         console.log('登录成功，跳转到首页');
-        navigate('/', { replace: true });
+        navigate('/home', { replace: true });
       } else {
         setError(response.message || '登录失败，请检查账号密码');
       }

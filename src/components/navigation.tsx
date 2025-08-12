@@ -12,7 +12,7 @@ interface MenuItem {
   onClick?: () => void;
 }
 
-export type TabKeys = "/" | "/notification" | "/message" | "/profile";
+export type TabKeys = "/home" | "/notification" | "/message" | "/profile";
 
 export const NO_BOTTOM_NAVIGATION_PAGES = ["/result", "/news-detail", "/login", "/chat"];
 
@@ -23,7 +23,7 @@ export const Navigation: FC = () => {
   const isAuthenticated = useRecoilValue(isAuthenticatedState);
 
   const tabs: Record<string, MenuItem> = {
-    "/": {
+    "/home": {
       label: "News",
       icon: <Icon icon="zi-home" />,
     },

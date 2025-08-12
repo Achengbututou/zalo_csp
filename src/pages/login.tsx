@@ -135,10 +135,14 @@ const LoginPage: React.FunctionComponent = () => {
 
         console.log('Login successful, token saved:', token.substring(0, 20) + '...');
 
+        // 先设置Recoil状态
         setAuthToken(token);
         setCurrentUser(userWithToken);
 
-        navigate('/', { replace: true });
+        // 等待一小段时间确保状态更新完成，然后跳转
+        setTimeout(() => {
+          navigate('/home', { replace: true });
+        }, 100);
       } else {
         setError(response.info || 'Login failed, please check your account and password');
       }

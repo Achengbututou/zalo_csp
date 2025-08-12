@@ -27,7 +27,7 @@ export const PublicRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
 
   if (isAuthenticated) {
     // 如果已登录，重定向到首页或原来要访问的页面
-    const from = (location.state as any)?.from?.pathname || "/";
+    const from = (location.state as any)?.from?.pathname || "/home";
     return <Navigate to={from} replace />;
   }
 

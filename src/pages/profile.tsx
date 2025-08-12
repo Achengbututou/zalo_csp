@@ -3,6 +3,8 @@ import { Box, Header, Icon, Page, Text, Button } from "zmp-ui";
 import subscriptionDecor from "static/subscription-decor.svg";
 import { ListRenderer } from "components/list-renderer";
 import { useNavigate } from "react-router-dom";
+import { useSetRecoilState } from "recoil";
+import { authTokenState, currentUserState } from "state";
 import ImageWithFallback from "components/ImageWithFallback";
 
 // User info interface
@@ -413,6 +415,7 @@ const MainMenu: FC = () => {
   const navigate = useNavigate();
   // Menu item click handler
   const handleMenuClick = (path: string) => {
+    console.log(`[Profile] Menu clicked: ${path}`);
     switch (path) {
       case 'message':
         navigate('/message');
@@ -423,14 +426,16 @@ const MainMenu: FC = () => {
       case 'clear-cache':
         handleClearCache();
         break;
-      case 'formIs':
+      case 'form-test':
+        console.log('[Profile] Navigating to /form-test');
         navigate('/form-test');
         break;
-      case 'form-original':
+      case 'form-test-original':
+        console.log('[Profile] Navigating to /form-test-original');
         navigate('/form-test-original');
         break;
       default:
-        console.log(`Navigate to: ${path}`);
+        console.log(`[Profile] Unknown menu item: ${path}`);
     }
   };
 
@@ -580,19 +585,39 @@ const VersionInfo: FC = () => {
 
 const LogoutButton: FC = () => {
   const navigate = useNavigate();
+  const setAuthToken = useSetRecoilState(authTokenState);
+  const setCurrentUser = useSetRecoilState(currentUserState);
 
   const handleLogout = async () => {
     const confirmed = window.confirm('Are you sure you want to log out?');
     if (confirmed) {
       try {
-        // Clear all stored data
-        localStorage.clear();
-        sessionStorage.clear();
+        console.log('[Profile] 开始登出流程');
+        
+        // 1. 清理Recoil状态
+        setAuthToken(null);
+        setCurrentUser(null);
+        console.log('[Profile] Recoil状态已清理');
 
-        // Navigate to login page
-        navigate('/login');
+        // 2. 清理localStorage数据
+        localStorage.removeItem("authToken");
+        localStorage.removeItem("token");
+        localStorage.removeItem("userInfo");
+        // 清理其他可能的缓存数据
+        localStorage.removeItem("cacheData");
+        sessionStorage.clear();
+        console.log('[Profile] localStorage和sessionStorage已清理');
+
+        // 3. 等待一小段时间确保状态更新完成
+        setTimeout(() => {
+          console.log('[Profile] 重定向到登录页面');
+          navigate('/login', { replace: true });
+        }, 100);
+
       } catch (error) {
         console.error('Logout failed:', error);
+        // 即使出错也要尝试跳转到登录页面
+        navigate('/login', { replace: true });
       }
     }
   };
