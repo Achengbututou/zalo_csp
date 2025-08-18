@@ -5,6 +5,7 @@ import { useSetRecoilState } from "recoil";
 import { authTokenState, currentUserState } from "state";
 import CryptoJS from 'crypto-js';
 import logoImage from '../static/logo.png';
+import { SafeArea } from '../components/safe-area';
 
 // API Base URL
 const API_BASE_URL = "https://webapp.crystal-csc.cn/csp_core_api_v3";
@@ -179,7 +180,10 @@ const LoginPage: React.FunctionComponent = () => {
   return (
     <Page className="min-h-screen bg-white">
       {/* Main content area */}
-      <Box className="w-full max-w-md mx-auto px-6 text-center" style={{ paddingTop: '100px' }}>
+      <SafeArea 
+        className="w-full max-w-md mx-auto px-6 text-center" 
+        topOffset={100}
+      >
 
         {/* Header area */}
         <Box className="mb-12">
@@ -277,7 +281,7 @@ const LoginPage: React.FunctionComponent = () => {
             Crystal International Group
           </Text>
         </Box>
-      </Box>
+      </SafeArea>
     </Page>
   );
 };

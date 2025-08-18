@@ -1,8 +1,9 @@
 import React, { FC, useState, useEffect, useCallback, useRef } from "react";
-import { Box, Header, Page, Text } from "zmp-ui";
+import { Box, Page, Text } from "zmp-ui";
 import { useNavigate } from "react-router";
 import ImageWithFallback from "components/ImageWithFallback";
 import { httpGetMethod } from "utils/http";
+import { SafeHeader } from "components/with-safe-area";
 
 // Message conversation data interface
 interface ConversationItem {
@@ -298,11 +299,12 @@ const MessagePage: FC = () => {
 
   return (
     <Page className="flex flex-col h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
-      <Header
+      <SafeHeader
         title="Messages"
         showBackIcon={false}
         className="bg-white/90 backdrop-blur-md border-b border-white/50 shadow-sm"
-      />
+      >
+      </SafeHeader>
       <MessageList />
     </Page>
   );

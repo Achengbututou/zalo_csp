@@ -1,7 +1,8 @@
 import React from "react";
 import { useForm, Controller } from "react-hook-form";
-import { Box, Input, Button, Text, Radio, Checkbox, Switch, DatePicker, Page, Header } from "zmp-ui";
+import { Box, Input, Button, Text, Radio, Checkbox, Switch, DatePicker, Page } from "zmp-ui";
 import { useNavigate } from "react-router";
+import { SafeHeader } from "components/with-safe-area";
 
 // 1. 这里直接定义 rawData 为 js 对象（将 json 粘贴到这里）
 const rawData = {
@@ -239,11 +240,12 @@ const FormTestOriginal = () => {
 
     return (
         <Page>
-            <Header
+            <SafeHeader
                 title="原始流程表单测试"
                 showBackIcon={true}
                 onBackClick={() => navigate(-1)}
-            />
+            >
+            </SafeHeader>
             
             <Box className="flex-1 overflow-auto">
                 {/* 表单标题 */}

@@ -1,7 +1,7 @@
-// API服务配置
+// API service configuration
 const API_BASE_URL = "https://webapp.crystal-csc.cn/csp_core_api_v3";
 
-// HTTP请求类，模仿原始项目的http.js mixins
+// HTTP request class, mimicking original project's http.js mixins
 class HttpService {
   private baseURL: string;
 
@@ -9,11 +9,11 @@ class HttpService {
     this.baseURL = API_BASE_URL;
   }
 
-  // 处理登录状态失效
+  // Handle authentication failure
   private handleAuthError() {
-    console.log('[HTTP Service] 检测到登录状态无效，清理登录数据并重定向到登录页');
+    console.log('[HTTP Service] Detected invalid login status, clearing login data and redirecting to login page');
     
-    // 清理所有登录相关的localStorage数据
+    // Clear all login-related localStorage data
     if (typeof localStorage !== "undefined") {
       localStorage.removeItem("authToken");
       localStorage.removeItem("token");

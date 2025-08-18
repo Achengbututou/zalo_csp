@@ -1,7 +1,8 @@
 import React, { FC, useState, useEffect } from "react";
-import { Box, Header, Page, Text } from "zmp-ui";
+import { Box, Page, Text } from "zmp-ui";
 import { useNavigate } from "react-router-dom";
 import ImageWithFallback from "components/ImageWithFallback";
+import { SafeHeader } from "components/with-safe-area";
 
 // User information interface
 interface UserInfo {
@@ -100,7 +101,8 @@ const UserInfoPage: FC = () => {
   if (!userInfo) {
     return (
       <Page className="bg-gray-50 min-h-screen">
-        <Header title="个人信息" />
+        <SafeHeader title="个人信息" showBackIcon={true} onBackClick={() => navigate(-1)}>
+        </SafeHeader>
         <Box className="flex items-center justify-center py-20">
           <Text className="text-gray-500">加载中...</Text>
         </Box>
@@ -110,7 +112,8 @@ const UserInfoPage: FC = () => {
 
   return (
     <Page className="bg-gray-50 min-h-screen">
-      <Header title="Personal Information" />
+      <SafeHeader title="Personal Information" showBackIcon={true} onBackClick={() => navigate(-1)}>
+      </SafeHeader>
 
       {/* Avatar area */}
       <Box className="bg-white mx-4 mt-4 rounded-2xl shadow-sm p-6">

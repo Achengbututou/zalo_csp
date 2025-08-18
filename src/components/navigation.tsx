@@ -14,7 +14,7 @@ interface MenuItem {
 
 export type TabKeys = "/home" | "/notification" | "/message" | "/profile";
 
-export const NO_BOTTOM_NAVIGATION_PAGES = ["/result", "/news-detail", "/login", "/chat"];
+export const NO_BOTTOM_NAVIGATION_PAGES = ["/result", "/news-detail", "/login", "/chat", "/phone-example", "/form-test", "/form-test-original"];
 
 export const Navigation: FC = () => {
   const keyboardVisible = useVirtualKeyboardVisible();

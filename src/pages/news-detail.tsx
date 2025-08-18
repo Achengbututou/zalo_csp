@@ -2,6 +2,7 @@ import React, { FC, useState, useEffect } from "react";
 import { Box, Header, Page, Text, Button, Icon } from "zmp-ui";
 import { useNavigate, useLocation } from "react-router";
 import { NewsItem } from "types/news";
+import { SafeAreaHeader } from "../components/safe-area";
 
 const NewsDetailPage: FC = () => {
   const navigate = useNavigate();
@@ -47,38 +48,38 @@ const NewsDetailPage: FC = () => {
               Dear coffee lovers, we are excited to announce that our highly anticipated autumn limited latte series is now officially available!
             </p>
             
-            <h3 style="color: #d4a574; margin: 24px 0 16px 0;">🎃 新品介绍</h3>
+            <h3 style="color: #d4a574; margin: 24px 0 16px 0;">🎃 New Product Introduction</h3>
             
             <ul style="margin-bottom: 20px; padding-left: 20px;">
-              <li style="margin-bottom: 8px;"><strong>南瓜香料拿铁</strong> - 浓郁的南瓜香味配上经典香料，温暖你的秋日</li>
-              <li style="margin-bottom: 8px;"><strong>肉桂苹果拿铁</strong> - 清甜的苹果香配上温暖的肉桂，如秋日午后的惬意</li>
-              <li style="margin-bottom: 8px;"><strong>焦糖栗子拿铁</strong> - 香甜的栗子配上丝滑焦糖，层次丰富的口感体验</li>
-              <li style="margin-bottom: 8px;"><strong>枫糖胡桃拿铁</strong> - 加拿大枫糖配上香脆胡桃，给你不一样的秋日风情</li>
+              <li style="margin-bottom: 8px;"><strong>Pumpkin Spice Latte</strong> - Rich pumpkin flavor with classic spices to warm your autumn days</li>
+              <li style="margin-bottom: 8px;"><strong>Cinnamon Apple Latte</strong> - Sweet apple fragrance with warm cinnamon, like a cozy autumn afternoon</li>
+              <li style="margin-bottom: 8px;"><strong>Caramel Chestnut Latte</strong> - Sweet chestnuts with smooth caramel for a rich taste experience</li>
+              <li style="margin-bottom: 8px;"><strong>Maple Walnut Latte</strong> - Canadian maple syrup with crunchy walnuts for a unique autumn flavor</li>
             </ul>
             
             <div style="background: #f8f9fa; padding: 20px; border-radius: 12px; margin: 20px 0;">
-              <h3 style="color: #28a745; margin-top: 0;">💰 优惠活动</h3>
-              <p style="margin-bottom: 12px;">即日起至10月31日，购买任意秋季限定拿铁可享受：</p>
+              <h3 style="color: #28a745; margin-top: 0;">💰 Special Offers</h3>
+              <p style="margin-bottom: 12px;">From now until October 31st, enjoy these benefits when purchasing any autumn limited latte:</p>
               <ul style="margin: 0; padding-left: 20px;">
-                <li>首杯8折优惠</li>
-                <li>买二送一（仅限同款）</li>
-                <li>会员额外享受积分翻倍</li>
+                <li>20% off your first cup</li>
+                <li>Buy 2 get 1 free (same flavor only)</li>
+                <li>Members get double points</li>
               </ul>
             </div>
             
             <p style="margin-bottom: 16px;">
-              我们精心挑选了来自世界各地的优质咖啡豆，配合专业的调制技艺，
-              为您带来这个秋天最温暖的味蕾体验。每一杯都承载着我们对品质的坚持和对您的用心。
+              We carefully select premium coffee beans from around the world, combined with professional brewing techniques,
+              to bring you the warmest taste experience this autumn. Every cup carries our commitment to quality and care for you.
             </p>
             
             <div style="text-align: center; margin: 30px 0; padding: 20px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 12px; color: white;">
-              <h3 style="margin-top: 0; color: white;">🕐 营业时间</h3>
-              <p style="margin: 8px 0;">周一至周五：7:00 - 22:00</p>
-              <p style="margin: 8px 0;">周末及节假日：8:00 - 23:00</p>
+              <h3 style="margin-top: 0; color: white;">🕐 Business Hours</h3>
+              <p style="margin: 8px 0;">Monday - Friday: 7:00 AM - 10:00 PM</p>
+              <p style="margin: 8px 0;">Weekends & Holidays: 8:00 AM - 11:00 PM</p>
             </div>
             
             <p style="margin-bottom: 16px; font-style: italic; text-align: center; color: #666;">
-              "在这个金桂飘香的季节里，让我们用一杯温暖的咖啡，为您的秋日时光增添一抹香醇。"
+              "In this season of golden osmanthus fragrance, let us add a touch of richness to your autumn moments with a warm cup of coffee."
             </p>
           </div>
         `,
@@ -89,18 +90,18 @@ const NewsDetailPage: FC = () => {
 
       setNewsItem(mockNewsDetail);
     } catch (error) {
-      console.error('获取新闻详情失败:', error);
+      console.error('Failed to fetch news details:', error);
     } finally {
       setIsLoading(false);
     }
   };
 
-  // 返回上一页
+  // Go back to previous page
   const goBack = () => {
     navigate(-1);
   };
 
-  // 截断标题显示
+  // Truncate title for display
   const getTruncatedTitle = (title: string, maxLength: number = 20) => {
     if (!title) return '';
     if (title.length <= maxLength) return title;
@@ -126,8 +127,8 @@ const NewsDetailPage: FC = () => {
   if (isLoading) {
     return (
       <Page className="flex flex-col h-screen bg-gray-50">
-        {/* 统一样式的头部 */}
-        <Box className="bg-primary text-white relative flex items-center px-4 py-4 shadow-md sticky top-0 z-10">
+        {/* Unified style header */}
+        <SafeAreaHeader className="bg-primary text-white relative flex items-center px-4 shadow-md sticky top-0 z-10">
           <Box 
             className="absolute left-4 cursor-pointer hover:bg-white hover:bg-opacity-10 active:bg-opacity-20 rounded-full p-2 transition-all duration-200"
             onClick={goBack}
@@ -136,14 +137,14 @@ const NewsDetailPage: FC = () => {
           </Box>
           <Box className="flex-1 flex justify-center items-center px-12">
             <Text className="text-white font-semibold text-lg text-center leading-tight">
-              新闻详情
+              News Details
             </Text>
           </Box>
-        </Box>
+        </SafeAreaHeader>
         <Box className="flex-1 flex items-center justify-center">
           <Box className="text-center">
             <Box className="inline-block w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin mb-4"></Box>
-            <Text className="text-gray-500">加载中...</Text>
+            <Text className="text-gray-500">Loading...</Text>
           </Box>
         </Box>
       </Page>
@@ -154,7 +155,7 @@ const NewsDetailPage: FC = () => {
     return (
       <Page className="flex flex-col h-screen bg-gray-50">
         {/* Unified style header */}
-        <Box className="bg-primary text-white relative flex items-center px-4 py-4 shadow-md sticky top-0 z-10">
+        <SafeAreaHeader className="bg-primary text-white relative flex items-center px-4 shadow-md sticky top-0 z-10">
           <Box
             className="absolute left-4 cursor-pointer hover:bg-white hover:bg-opacity-10 active:bg-opacity-20 rounded-full p-2 transition-all duration-200"
             onClick={goBack}
@@ -166,12 +167,12 @@ const NewsDetailPage: FC = () => {
               News Details
             </Text>
           </Box>
-        </Box>
+        </SafeAreaHeader>
         <Box className="flex-1 flex items-center justify-center">
           <Box className="text-center">
-            <Text className="text-gray-500 mb-4">未找到新闻内容</Text>
+            <Text className="text-gray-500 mb-4">News content not found</Text>
             <Button onClick={goBack} variant="primary">
-              返回上一页
+              Go Back
             </Button>
           </Box>
         </Box>
@@ -182,7 +183,7 @@ const NewsDetailPage: FC = () => {
   return (
     <Page className="flex flex-col h-screen bg-gray-50">
       {/* Custom header */}
-      <Box className="bg-primary text-white relative flex items-center px-4 py-4 shadow-md sticky top-0 z-10">
+      <SafeAreaHeader className="bg-primary text-white relative flex items-center px-4 shadow-md sticky top-0 z-10">
         {/* Back icon */}
         <Box
           className="absolute left-4 cursor-pointer hover:bg-white hover:bg-opacity-10 active:bg-opacity-20 rounded-full p-2 transition-all duration-200"
@@ -197,7 +198,7 @@ const NewsDetailPage: FC = () => {
             {getTruncatedTitle(newsItem.title, 24)}
           </Text>
         </Box>
-      </Box>
+      </SafeAreaHeader>
 
       {/* Content area */}
       <Box className="flex-1 overflow-auto">

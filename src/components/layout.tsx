@@ -15,6 +15,7 @@ import ChatPage from "pages/chat";
 import MessagePage from "pages/message";
 import FormTestFixedPage from "pages/form-test-fixed";
 import FormTestOriginalPage from "pages/form-test-original";
+import PhoneExamplePage from "pages/phone-example";
 import { getSystemInfo } from "zmp-sdk";
 import { ScrollRestoration } from "./scroll-restoration";
 import { useHandlePayment } from "hooks";
@@ -145,6 +146,15 @@ export const Layout: FC = () => {
               element={
                 <ProtectedRoute>
                   <FormTestOriginalPage />
+                </ProtectedRoute>
+              }
+            />
+
+            <Route
+              path="/phone-example"
+              element={
+                <ProtectedRoute>
+                  <PhoneExamplePage />
                 </ProtectedRoute>
               }
             />

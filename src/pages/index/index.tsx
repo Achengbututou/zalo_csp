@@ -3,6 +3,7 @@ import { Box, Page, Text, Button } from "zmp-ui";
 import { useNavigate } from "react-router";
 import { fetchDataItem, fetchNewsList } from "../../utils/http";
 import ImageWithFallback from "../../components/ImageWithFallback";
+import { SafeAreaHeader } from "../../components/safe-area";
 
 // News type interface
 interface NewsType {
@@ -319,15 +320,15 @@ const HomePage: React.FunctionComponent = () => {
     // Load data - using reset mode
     loadData(filteredNews, true);
     
-    // 设置正在进行动画的标志为 false
+    // Set animation flag to false
     setIsAnimating(false);
-    // 设置正在切换标签的标志为 false
+    // Set tab switching flag to false
     setIsSwitching(false);
   }, [listALL, isSwitching, loadData]);
 
-  // 点击新闻项跳转详情页的方法
+  // Method to navigate to news detail page when clicking news item
   const goNewMessage = useCallback((message: NewsItem) => {
-    // 当不在切换标签状态时，进行跳转操作
+    // Navigate only when not in tab switching state
     if (!isSwitching) {
       // Show loading indicator (simulated)
       setIsLoading(true);
@@ -344,11 +345,11 @@ const HomePage: React.FunctionComponent = () => {
   return (
     <Page className="flex flex-col h-screen bg-gray-50">
       {/* Navigation bar section */}
-      <Box className="bg-primary text-white px-6 py-4 shadow-md">
+      <SafeAreaHeader className="bg-primary text-white px-6 shadow-md">
         <Text className="text-white text-lg font-bold text-center">
           News & Announcements
         </Text>
-      </Box>
+      </SafeAreaHeader>
       
       {/* News and announcements tab bar */}
       <Box className="bg-white border-gray-200 sticky top-0 z-10">
@@ -375,7 +376,7 @@ const HomePage: React.FunctionComponent = () => {
         </Box>
       </Box>
 
-      {/* 内容区域 */}
+      {/* Content area */}
       <Box 
         className="flex-1 overflow-auto relative"
         onScroll={handleScroll}

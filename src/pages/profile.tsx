@@ -1,11 +1,12 @@
 import React, { FC, useState, useEffect } from "react";
-import { Box, Header, Icon, Page, Text, Button } from "zmp-ui";
+import { Box, Header, Icon, Page, Text, Button, Modal } from "zmp-ui";
 import subscriptionDecor from "static/subscription-decor.svg";
 import { ListRenderer } from "components/list-renderer";
 import { useNavigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 import { authTokenState, currentUserState } from "state";
 import ImageWithFallback from "components/ImageWithFallback";
+import { SafeAreaTop } from "components/safe-area";
 
 // User info interface
 interface UserInfo {
@@ -434,6 +435,11 @@ const MainMenu: FC = () => {
         console.log('[Profile] Navigating to /form-test-original');
         navigate('/form-test-original');
         break;
+
+      case 'phone-example':
+        console.log('[Profile] Navigating to /phone-example');
+        navigate('/phone-example');
+        break;
       default:
         console.log(`[Profile] Unknown menu item: ${path}`);
     }
@@ -503,6 +509,13 @@ const MainMenu: FC = () => {
       id: 'form-test-original',
       icon: 'zi-calendar' as const,
       title: 'Original Form Test',
+      color: '#2979ff',
+    },
+
+    {
+      id: 'phone-example',
+      icon: 'zi-check-circle' as const,
+      title: 'Employee Registration',
       color: '#2979ff',
     },
   ];
@@ -587,53 +600,107 @@ const LogoutButton: FC = () => {
   const navigate = useNavigate();
   const setAuthToken = useSetRecoilState(authTokenState);
   const setCurrentUser = useSetRecoilState(currentUserState);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
 
-  const handleLogout = async () => {
-    const confirmed = window.confirm('Are you sure you want to log out?');
-    if (confirmed) {
-      try {
-        console.log('[Profile] 开始登出流程');
-        
-        // 1. 清理Recoil状态
-        setAuthToken(null);
-        setCurrentUser(null);
-        console.log('[Profile] Recoil状态已清理');
+  const handleLogoutClick = () => {
+    setShowConfirmModal(true);
+  };
 
-        // 2. 清理localStorage数据
-        localStorage.removeItem("authToken");
-        localStorage.removeItem("token");
-        localStorage.removeItem("userInfo");
-        // 清理其他可能的缓存数据
-        localStorage.removeItem("cacheData");
-        sessionStorage.clear();
-        console.log('[Profile] localStorage和sessionStorage已清理');
+  const handleConfirmLogout = async () => {
+    setShowConfirmModal(false);
+    
+    try {
+      console.log('[Profile] Starting logout process');
+      
+      // 1. Clear Recoil state
+      setAuthToken(null);
+      setCurrentUser(null);
+      console.log('[Profile] Recoil state cleared');
 
-        // 3. 等待一小段时间确保状态更新完成
-        setTimeout(() => {
-          console.log('[Profile] 重定向到登录页面');
-          navigate('/login', { replace: true });
-        }, 100);
+      // 2. Clear localStorage data
+      localStorage.removeItem("authToken");
+      localStorage.removeItem("token");
+      localStorage.removeItem("userInfo");
+      // Clear other possible cache data
+      localStorage.removeItem("cacheData");
+      sessionStorage.clear();
+      console.log('[Profile] localStorage and sessionStorage cleared');
 
-      } catch (error) {
-        console.error('Logout failed:', error);
-        // 即使出错也要尝试跳转到登录页面
+      // 3. Wait briefly to ensure state updates complete
+      setTimeout(() => {
+        console.log('[Profile] Redirecting to login page');
         navigate('/login', { replace: true });
-      }
+      }, 100);
+
+    } catch (error) {
+      console.error('Logout failed:', error);
+      // Even if error occurs, try to navigate to login page
+      navigate('/login', { replace: true });
     }
   };
 
+  const handleCancelLogout = () => {
+    setShowConfirmModal(false);
+  };
+
   return (
-    <Box className="mx-4 mb-8">
-      <Box className="bg-white rounded-2xl shadow-md p-4">
-        <Button
-          onClick={handleLogout}
-          className="w-full bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white font-semibold py-4 rounded-xl shadow-lg transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98] border-0"
-          type="danger"
-        >
-          <Text className="text-white font-semibold">Logout</Text>
-        </Button>
+    <>
+      <Box className="mx-4 mb-8">
+        <Box className="bg-white rounded-2xl shadow-md p-4">
+          <Button
+            onClick={handleLogoutClick}
+            className="w-full bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white font-semibold py-4 rounded-xl shadow-lg transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98] border-0"
+            type="danger"
+          >
+            <Text className="text-white font-semibold">Logout</Text>
+          </Button>
+        </Box>
       </Box>
-    </Box>
+
+      {/* Logout confirmation modal */}
+      <Modal
+        visible={showConfirmModal}
+        title=""
+        onClose={handleCancelLogout}
+        verticalActions
+      >
+        <Box className="text-center py-4">
+          {/* Icon */}
+          <Box className="w-16 h-16 mx-auto mb-4 bg-red-100 rounded-full flex items-center justify-center">
+            <Text className="text-3xl">⚠️</Text>
+          </Box>
+          
+          {/* Title */}
+          <Text className="text-lg font-semibold text-gray-800 mb-2">
+            Confirm Logout
+          </Text>
+          
+          {/* Description */}
+          <Text className="text-gray-600 mb-6 leading-relaxed">
+            Are you sure you want to log out?<br />
+            You will need to log in again to use the app features.
+          </Text>
+          
+          {/* Button group */}
+          <Box className="space-y-3">
+            <Button
+              onClick={handleConfirmLogout}
+              className="w-full bg-red-500 hover:bg-red-600 text-white font-medium py-3 rounded-lg transition-colors"
+              type="danger"
+            >
+              Confirm Logout
+            </Button>
+            <Button
+              onClick={handleCancelLogout}
+              className="w-full bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium py-3 rounded-lg transition-colors"
+              variant="secondary"
+            >
+              Cancel
+            </Button>
+          </Box>
+        </Box>
+      </Modal>
+    </>
   );
 };
 
@@ -652,12 +719,13 @@ const Footer: FC = () => {
 const ProfilePage: FC = () => {
   return (
     <Page className="bg-gray-50 min-h-screen">
-      {/* <Header showBackIcon={false} title=" " className="bg-transparent" /> */}
-      <UserBanner />
-      <MainMenu />
-      <VersionInfo />
-      <LogoutButton />
-      <Footer />
+      <SafeAreaTop>
+        <UserBanner />
+        <MainMenu />
+        <VersionInfo />
+        <LogoutButton />
+        <Footer />
+      </SafeAreaTop>
     </Page>
   );
 };

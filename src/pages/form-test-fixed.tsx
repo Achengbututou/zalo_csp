@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from "react";
-import { Box, Page, Header, Text, Button, useSnackbar, Tabs } from "zmp-ui";
+import { Box, Page, Text, Button, useSnackbar, Tabs } from "zmp-ui";
 import { useNavigate } from "react-router";
+import { SafeHeader } from "components/with-safe-area";
 import { 
   RichTextEditor, 
   AdvancedTimePicker, 
@@ -139,11 +140,12 @@ const FormTestFixedPage: React.FC = () => {
 
   return (
     <Page className="bg-gray-50">
-      <Header
+      <SafeHeader
         title="动态表单测试"
         showBackIcon={true}
         onBackClick={() => navigate(-1)}
-      />
+      >
+      </SafeHeader>
 
       <Box className="flex-1 overflow-auto">
         {/* 组件选择器 - 横向滑动 */}

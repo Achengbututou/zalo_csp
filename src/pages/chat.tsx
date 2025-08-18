@@ -1,8 +1,9 @@
 import React, { FC, useState, useEffect, useCallback, useRef } from "react";
-import { Box, Header, Page, Text, Button, Input, Icon } from "zmp-ui";
+import { Box, Page, Text, Button, Input, Icon } from "zmp-ui";
 import { useNavigate, useLocation } from "react-router";
 import ImageWithFallback from "components/ImageWithFallback";
 import { httpGetMethod, httpPostMethod } from "utils/http";
+import { SafeHeader } from "components/with-safe-area";
 
 // Message type
 interface ChatMessage {
@@ -331,7 +332,8 @@ const ChatPage: FC = () => {
   if (isLoading) {
     return (
       <Page className="flex flex-col h-screen bg-gray-50">
-        <Header title="Chat" showBackIcon={true} onBackClick={goBack} />
+        <SafeHeader title="Chat" showBackIcon={true} onBackClick={goBack}>
+        </SafeHeader>
         <Box className="flex-1 flex items-center justify-center">
           <Box className="text-center">
             <Box className="inline-block w-8 h-8 border-2 border-blue-500 border-t-transparent rounded-full animate-spin mb-4"></Box>
@@ -345,12 +347,13 @@ const ChatPage: FC = () => {
   return (
     <Page className="flex flex-col h-screen bg-gradient-to-b from-gray-50 to-gray-100">
       {/* Chat header */}
-      <Header 
+      <SafeHeader
         title={contact?.f_RealName || "Chat"}
-        showBackIcon={true} 
+        showBackIcon={true}
         onBackClick={goBack}
         className="bg-white shadow-sm"
-      />
+      >
+      </SafeHeader>
       
       {/* 消息列表 */}
       <Box 

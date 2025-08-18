@@ -3,6 +3,7 @@ import { Box, Header, Page, Text, Button, Icon, Input } from "zmp-ui";
 import { useNavigate } from "react-router";
 import ImageWithFallback from "components/ImageWithFallback";
 import { httpGetMethod } from "utils/http";
+import { SafeAreaTop } from "components/safe-area";
 
 // Contact data interface
 interface ContactItem {
@@ -468,8 +469,9 @@ const ContactList: FC = () => {
 const ContactPage: FC = () => {
   return (
     <Page className="flex flex-col h-screen">
-      {/* <Header title="通讯录" showBackIcon={false} /> */}
-      <ContactList />
+      <SafeAreaTop>
+        <ContactList />
+      </SafeAreaTop>
     </Page>
   );
 };

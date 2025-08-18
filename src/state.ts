@@ -2,7 +2,7 @@ import { atom, selector } from "recoil";
 import { getUserInfo } from "zmp-sdk";
 import { Notification } from "types/notification";
 
-// 用户认证状态
+// User authentication status
 export const authTokenState = atom({
   key: "authToken",
   default:
@@ -11,7 +11,7 @@ export const authTokenState = atom({
       : null,
 });
 
-// 当前登录用户信息
+// Current logged-in user information
 export const currentUserState = atom({
   key: "currentUser",
   default: (() => {
@@ -23,15 +23,15 @@ export const currentUserState = atom({
   })(),
 });
 
-// 是否已登录的状态
+// Whether user is logged in
 export const isAuthenticatedState = selector({
   key: "isAuthenticated",
   get: ({ get }) => {
     const token = get(authTokenState);
     const user = get(currentUserState);
     
-    // 只检查token和用户信息是否都存在，不在这里清理数据
-    // 数据清理应该由AuthInitializer或HTTP服务来处理
+    // Only check if token and user info both exist, don't clear data here
+    // Data clearing should be handled by AuthInitializer or HTTP service
     return !!(token && user);
   },
 });
