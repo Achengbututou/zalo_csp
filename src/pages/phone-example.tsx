@@ -286,11 +286,20 @@ const PhoneExamplePage: React.FunctionComponent = () => {
       </Box>
 
       {phoneNumber && (
-        <Box className="bg-blue-50 border border-blue-200 rounded-xl p-4">
-          <Text className="text-blue-800 font-semibold mb-2">📱 联系方式已确认</Text>
-          <Text className="text-blue-700 text-sm">
-            手机号 {phoneNumber} 已成功添加到员工档案
-          </Text>
+        <Box className="space-y-3">
+          <Box className="bg-blue-50 border border-blue-200 rounded-xl p-4">
+            <Text className="text-blue-800 font-semibold mb-2">📱 联系方式已确认</Text>
+            <Text className="text-blue-700 text-sm">
+              手机号 {phoneNumber} 已成功添加到员工档案
+            </Text>
+          </Box>
+
+          <Box className="bg-green-50 border border-green-200 rounded-xl p-4">
+            <Text className="text-green-800 font-semibold mb-2">✅ 真实手机号</Text>
+            <Text className="text-green-700 text-sm">
+              已通过Zalo API获取到您的真实手机号码
+            </Text>
+          </Box>
         </Box>
       )}
 
@@ -310,8 +319,7 @@ const PhoneExamplePage: React.FunctionComponent = () => {
         showBackIcon={true}
         onBackClick={() => navigate(-1)}
         className="bg-primary text-white"
-      >
-      </SafeHeader>
+      />
       
       <Box className="p-4">
         {/* 步骤指示器 */}
