@@ -1,7 +1,9 @@
 {
   "json.schemas": [
     {
-      "fileMatch": ["app-config.json"],
+      "fileMatch": [
+        "app-config.json"
+      ],
       "schema": {
         "type": "object",
         "properties": {
@@ -11,7 +13,9 @@
             "properties": {
               "name": {
                 "type": "string",
-                "enum": ["CSP of CETVN"],
+                "enum": [
+                  "CSP of CETVN"
+                ],
                 "description": "Tên template. Bắt buộc phải mang giá trị CSP of CETVNe"
               },
               "headerLogo": {
@@ -34,10 +38,23 @@
                 "default": false
               }
             },
-            "required": ["name"]
+            "required": [
+              "name"
+            ]
           }
         }
       }
     }
-  ]
+  ],
+  "[typescriptreact]": {
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": "never"
+    }
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "vscode.typescript-language-features",
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": "never"
+    }
+  }
 }

@@ -628,8 +628,8 @@ const LogoutButton: FC = () => {
 
       // 3. Wait briefly to ensure state updates complete
       setTimeout(() => {
-        console.log('[Profile] Redirecting to login page');
-        navigate('/login', { replace: true });
+        console.log('[Profile] Redirecting to company intro page');
+        navigate('/company-intro', { replace: true });
       }, 100);
 
     } catch (error) {

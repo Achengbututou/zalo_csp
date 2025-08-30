@@ -6,6 +6,8 @@ import { ProtectedRoute, PublicRoute } from "./route-guard";
 import { AuthInitializer } from "./auth-initializer";
 import HomePage from "pages/index";
 import LoginPage from "pages/login";
+import CompanyIntroPage from "pages/company-intro";
+import LoginGuidePage from "pages/login-guide";
 import NotificationPage from "pages/notification";
 import ProfilePage from "pages/profile";
 import UserInfoPage from "pages/user-info";
@@ -37,12 +39,12 @@ if (import.meta.env.DEV) {
 // 根路由重定向组件
 const RootRedirect: FC = () => {
   const isAuthenticated = useRecoilValue(isAuthenticatedState);
-  
+
   // 根据登录状态重定向
   if (isAuthenticated) {
     return <Navigate to="/home" replace />;
   } else {
-    return <Navigate to="/login" replace />;
+    return <Navigate to="/company-intro" replace />;
   }
 };
 
@@ -58,7 +60,15 @@ export const Layout: FC = () => {
             {/* Root route - redirect based on auth status */}
             <Route path="/" element={<RootRedirect />} />
 
-            {/* Public routes - Login page */}
+            {/* Public routes - No login required */}
+            <Route
+              path="/company-intro"
+              element={<CompanyIntroPage />}
+            />
+            <Route
+              path="/login-guide"
+              element={<LoginGuidePage />}
+            />
             <Route
               path="/login"
               element={
@@ -159,8 +169,8 @@ export const Layout: FC = () => {
               }
             />
 
-            {/* Catch all route - redirect to login for unknown paths */}
-            <Route path="*" element={<Navigate to="/login" replace />} />
+            {/* Catch all route - redirect to company intro for unknown paths */}
+            <Route path="*" element={<Navigate to="/company-intro" replace />} />
           </Routes>
         </Box>
         <Navigation />

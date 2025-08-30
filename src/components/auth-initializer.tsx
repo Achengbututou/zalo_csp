@@ -55,9 +55,10 @@ export const AuthInitializer: React.FC<AuthInitializerProps> = ({ children }) =>
           setAuthToken(null);
           setCurrentUser(null);
           
-          // 如果当前不在登录页面，重定向到登录页面
-          if (location.pathname !== "/login") {
-            navigate("/login", { replace: true });
+          // 如果当前不在公共页面，重定向到公司介绍页面
+          const publicPages = ["/login", "/company-intro", "/login-guide"];
+          if (!publicPages.includes(location.pathname)) {
+            navigate("/company-intro", { replace: true });
           }
         }
       }

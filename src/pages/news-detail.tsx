@@ -83,7 +83,7 @@ const NewsDetailPage: FC = () => {
             </p>
           </div>
         `,
-        published_date: "2024-08-01",
+        published_date: "2025-08-26",
         type: 1,
         icon: "https://stc-zmp.zadn.vn/templates/zaui-coffee/dummy/product-square-1.webp"
       };
